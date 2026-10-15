@@ -1,9 +1,11 @@
 {
   "title": "このページの使い方",
+  "theme": "terminal-night",
   "slides": [
     {
       "label": "はじめに",
-      "title": "結果を、\nめくって確認。",
+      "accent": "結果を、",
+      "title": "めくって確認。",
       "body": "長い報告を読む代わりに、要点を1枚ずつ見られます。",
       "kind": "cover",
       "visual": "◉"

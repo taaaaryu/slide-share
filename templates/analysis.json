@@ -1,10 +1,12 @@
 {
   "title": "解析タイトル",
+  "theme": "terminal-night",
   "subtitle": "対象・期間・作成日",
   "slides": [
     {
       "kind": "cover",
       "label": "解析資料",
+      "accent": "解析",
       "title": "結論が伝わるタイトル",
       "body": "対象と期間を一文で示す",
       "visual": "◉"

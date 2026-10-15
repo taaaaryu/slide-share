@@ -2,8 +2,8 @@
 """Create a new public slide deck from the shared viewer."""
 import json
 import re
-import shutil
 import sys
+from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,7 +19,9 @@ def main() -> None:
     if folder.exists():
         raise SystemExit(f"すでに存在します: {folder}")
     folder.mkdir(parents=True)
-    shutil.copy(ROOT / "slides" / "analysis-template" / "index.html", folder / "index.html")
+    shell = (ROOT / "slides" / "analysis-template" / "index.html").read_text()
+    shell = shell.replace("解析資料の共通テンプレート", escape(title, quote=True))
+    (folder / "index.html").write_text(shell)
     deck = json.loads((ROOT / "templates" / "analysis.json").read_text())
     deck["title"] = title
     deck["slides"][0]["title"] = title

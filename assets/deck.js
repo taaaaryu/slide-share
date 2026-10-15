@@ -16,6 +16,12 @@ function node(tag, className, value) {
   return el;
 }
 
+function brand() {
+  const wordmark = node('span', 'brand');
+  wordmark.append(node('span', 'brand-mark'), node('span', 'brand-name', 'Slide Share'));
+  return wordmark;
+}
+
 function hashSlide() {
   const match = location.hash.match(/^#(\d+)$/);
   const requested = match ? Number(match[1]) : 1;
@@ -27,11 +33,14 @@ function render() {
   current = hashSlide();
   const data = deck.slides[current - 1];
   slideEl.replaceChildren();
-  slideEl.className = `slide ${['cover', 'closing'].includes(data.kind) ? data.kind : ''}`;
+  slideEl.className = `slide ${data.kind || ''}`;
+  slideEl.style.setProperty('--progress', `${current / deck.slides.length * 100}%`);
   const top = node('div', 'slide-top');
-  top.append(node('span', 'slide-label', data.label || ''), node('span', 'slide-index', String(current).padStart(2, '0')));
+  top.append(node('span', 'slide-label', data.label || ''), brand());
   const content = node('div', 'slide-content');
-  content.append(node('h1', '', data.title || ''), node('p', '', data.body || ''));
+  const heading = node('h1', '', data.title || '');
+  if (data.accent) heading.prepend(node('span', 'accent-word', data.accent + ' '));
+  content.append(heading, node('p', '', data.body || ''));
   if (Array.isArray(data.items) && data.items.length) {
     const list = node('div', 'slide-steps');
     for (const item of data.items) list.append(node('span', 'slide-step', item));
@@ -68,7 +77,15 @@ function render() {
     content.append(list);
   }
   slideEl.append(top, content);
-  if (data.visual) slideEl.append(node('div', 'slide-visual', data.visual));
+  if (data.kind === 'cover' && deck.theme === 'terminal-night') {
+    const art = node('img', 'cover-art');
+    art.src = '../../assets/analysis-dashboard.svg';
+    art.alt = '';
+    slideEl.append(art);
+  } else if (data.visual) slideEl.append(node('div', 'slide-visual', data.visual));
+  const slideFooter = node('div', 'slide-chrome-footer');
+  slideFooter.append(node('span', '', '© Slide Share'), node('strong', '', String(current)));
+  slideEl.append(slideFooter);
   counterEl.textContent = `${current} / ${deck.slides.length}`;
   dotsEl.replaceChildren(...deck.slides.map((_, i) => node('i', i + 1 === current ? 'active' : '')));
   prevButton.disabled = current === 1;
@@ -118,6 +135,7 @@ fetch('deck.json').then(response => {
 }).then(data => {
   if (!Array.isArray(data.slides) || !data.slides.length) throw new Error('No slides');
   deck = data;
+  if (deck.theme === 'terminal-night') document.body.classList.add('terminal-theme');
   titleEl.textContent = deck.title || 'スライド';
   render();
 }).catch(() => { slideEl.append(node('p', '', 'スライドを読み込めませんでした。ページを再読み込みしてください。')); });
