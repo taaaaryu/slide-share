@@ -1,0 +1,12 @@
+{
+  "title": "解析資料の共通テンプレート",
+  "subtitle": "見本資料・実際の解析結果ではありません",
+  "slides": [
+    {"kind":"cover","label":"見本資料","title":"解析結果を、\n6枚で理解。","body":"この資料は型の説明です。実際の解析データは含みません。","visual":"◉"},
+    {"kind":"takeaway","label":"結論","title":"最初に、\n答えを示す。","body":"一番大事な発見と、その意味を一文ずつ伝えます。","visual":"01"},
+    {"kind":"metrics","label":"主要な数字","title":"数字は\n意味と一緒に。","body":"値だけを並べず、何を比較したかも示します。","metrics":[{"value":"①","name":"指標名","note":"比較条件"},{"value":"②","name":"指標名","note":"集計期間"}]},
+    {"kind":"comparison","label":"比較","title":"変化を\n一目で。","body":"条件をそろえて、違いが分かるようにします。","columns":[{"heading":"以前","text":"比較前の状態"},{"heading":"今回","text":"比較後の状態"}]},
+    {"kind":"evidence","label":"根拠","title":"根拠まで\nたどれる。","body":"出典や元データへのリンクを置きます。事実と推測も区別します。","sources":[{"label":"Slidev 公式サイト（参考技術）","url":"https://sli.dev/"}]},
+    {"kind":"closing","label":"次の行動","title":"最後に\n次の一歩。","body":"具体的に何をするか、判断が必要かを示します。","visual":"→"}
+  ]
+}

@@ -4,7 +4,7 @@
 
 ## 新しい資料を追加する
 
-`python3 scripts/new_deck.py 2026-10-15-result "結果のタイトル"` を実行し、`slides/2026-10-15-result/deck.json` の内容を編集します。`catalog.json` は自動更新されます。変更を `main` に push すると GitHub Pages に反映されます。
+`python3 scripts/new_deck.py 2026-10-15-result "結果のタイトル"` を実行し、`slides/2026-10-15-result/deck.json` の内容を編集します。6枚の解析資料テンプレートと一覧が自動生成されます。変更前に `python3 scripts/validate_decks.py` を実行し、`main` に push すると GitHub Pages に反映されます。
 
 共有URLは `https://taaaaryu.github.io/slide-share/slides/2026-10-15-result/#1` です。末尾の数字を変えると、そのスライドへ直接移動できます。
 

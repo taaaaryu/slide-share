@@ -37,7 +37,38 @@ function render() {
     for (const item of data.items) list.append(node('span', 'slide-step', item));
     content.append(list);
   }
-  slideEl.append(top, content, node('div', 'slide-visual', data.visual || ''));
+  if (Array.isArray(data.metrics) && data.metrics.length) {
+    const grid = node('div', 'slide-metrics');
+    for (const metric of data.metrics) {
+      const card = node('div', 'metric-card');
+      card.append(node('strong', '', metric.value), node('span', '', metric.name), node('small', '', metric.note || ''));
+      grid.append(card);
+    }
+    content.append(grid);
+  }
+  if (Array.isArray(data.columns) && data.columns.length) {
+    const grid = node('div', 'slide-columns');
+    for (const column of data.columns) {
+      const card = node('div', 'column-card');
+      card.append(node('strong', '', column.heading), node('span', '', column.text));
+      grid.append(card);
+    }
+    content.append(grid);
+  }
+  if (Array.isArray(data.sources) && data.sources.length) {
+    const list = node('div', 'slide-sources');
+    for (const source of data.sources) {
+      if (!/^https?:\/\//.test(source.url || '')) continue;
+      const link = node('a', '', `${source.label} ↗`);
+      link.href = source.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      list.append(link);
+    }
+    content.append(list);
+  }
+  slideEl.append(top, content);
+  if (data.visual) slideEl.append(node('div', 'slide-visual', data.visual));
   counterEl.textContent = `${current} / ${deck.slides.length}`;
   dotsEl.replaceChildren(...deck.slides.map((_, i) => node('i', i + 1 === current ? 'active' : '')));
   prevButton.disabled = current === 1;

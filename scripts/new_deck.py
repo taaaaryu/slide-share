@@ -19,20 +19,14 @@ def main() -> None:
     if folder.exists():
         raise SystemExit(f"すでに存在します: {folder}")
     folder.mkdir(parents=True)
-    shutil.copy(ROOT / "slides" / "welcome" / "index.html", folder / "index.html")
-    deck = {
-        "title": title,
-        "slides": [
-            {"label": "結論", "title": title, "body": "ここに一番大事な結論を書きます。", "kind": "cover", "visual": "◉"},
-            {"label": "全体像", "title": "何が起きたか", "body": "ここに全体像を短く書きます。", "kind": "steps", "items": ["確認", "実施", "結果"]},
-            {"label": "確認ポイント", "title": "大事な点", "body": "ここに数字や判断材料を書きます。", "kind": "number", "visual": "01"},
-            {"label": "次の行動", "title": "次にすること", "body": "ここに次の行動と根拠へのリンク先を書きます。", "kind": "closing", "visual": "✓"},
-        ],
-    }
+    shutil.copy(ROOT / "slides" / "analysis-template" / "index.html", folder / "index.html")
+    deck = json.loads((ROOT / "templates" / "analysis.json").read_text())
+    deck["title"] = title
+    deck["slides"][0]["title"] = title
     (folder / "deck.json").write_text(json.dumps(deck, ensure_ascii=False, indent=2) + "\n")
     catalog_path = ROOT / "catalog.json"
     catalog = json.loads(catalog_path.read_text())
-    catalog.insert(0, {"slug": slug, "title": title, "description": "結果資料 · 4枚"})
+    catalog.insert(0, {"slug": slug, "title": title, "description": f"解析資料 · {len(deck['slides'])}枚"})
     catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n")
     print(f"作成しました: slides/{slug}/")
 
